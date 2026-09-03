@@ -1,24 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
+import MapaMaranhao from "@/components/MapaMaranhao";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Mapa do Ecossistema de Inovação do Maranhão" },
+      {
+        name: "description",
+        content:
+          "Mapa interativo dos 217 municípios do Maranhão com os atores do ecossistema de inovação: startups, hubs, mentores, instituições e mais.",
+      },
+      { property: "og:title", content: "Mapa do Ecossistema de Inovação do Maranhão" },
+      {
+        property: "og:description",
+        content:
+          "Explore por município os atores do ecossistema de inovação maranhense, com filtros por tipo de ator.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background px-4 py-8 md:px-8">
+      <header className="mx-auto mb-6 max-w-[1400px]">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+          Ecossistema de Inovação do Maranhão
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Atores distribuídos pelos municípios maranhenses
+        </p>
+      </header>
+      <div className="mx-auto max-w-[1400px]">
+        <MapaMaranhao />
+      </div>
+    </main>
   );
 }
