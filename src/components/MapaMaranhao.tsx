@@ -135,6 +135,7 @@ export default function MapaMaranhao() {
 
   const drag = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
   const moved = useRef(false);
+  const pendente = useRef<string | null>(null);
 
   const zoomBotao = (fator: number) => {
     const el = containerRef.current;
@@ -200,6 +201,8 @@ export default function MapaMaranhao() {
           }}
           onPointerUp={() => {
             drag.current = null;
+            if (!moved.current && pendente.current) setSelecionado(pendente.current);
+            pendente.current = null;
           }}
         >
           <svg viewBox={`0 0 ${W} ${H}`} className="h-[70vh] w-full select-none">
@@ -223,8 +226,8 @@ export default function MapaMaranhao() {
                     strokeWidth={0.6 / zoom}
                     onMouseEnter={() => setHover(p.name)}
                     onMouseLeave={() => setHover(null)}
-                    onClick={() => {
-                      if (!moved.current) setSelecionado(p.name);
+                    onPointerDown={() => {
+                      pendente.current = p.name;
                     }}
                     style={{ cursor: "pointer" }}
                   />
