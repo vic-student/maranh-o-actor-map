@@ -36,7 +36,9 @@ function bounds() {
         : (f.geometry.coordinates as number[][][][]);
     for (const p of polys)
       for (const ring of p)
-        for (const [x, y] of ring) {
+        for (const pt of ring) {
+          const x = pt[0]!;
+          const y = pt[1]!;
           if (x < minX) minX = x;
           if (x > maxX) maxX = x;
           if (y < minY) minY = y;
@@ -70,8 +72,8 @@ const paths = features.map((f) => {
     n = 0;
   for (const p of polys)
     for (const ring of p) {
-      ring.forEach(([lon, lat], i) => {
-        const [x, y] = project(lon, lat);
+      ring.forEach((pt, i) => {
+        const [x, y] = project(pt[0]!, pt[1]!);
         d += (i === 0 ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1);
         cx += x;
         cy += y;
